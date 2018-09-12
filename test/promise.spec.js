@@ -30,4 +30,19 @@ describe('Promise', function(){
       done();
     });
   });
+
+  it('gives ability to attach promise into each other', function(done) {
+    var number = 42;
+
+    var promise = new Promise(function(resolve) {
+      resolve(number);
+    });
+
+    promise.then(function(res) {
+      return res * 2;
+    }).then(function(res) {
+      expect(res).toBe(number * 2);
+      done();
+    })
+  });
 });

@@ -4,6 +4,11 @@ function Promise(fn) {
   var deferred;
 
   function resolve(newValue) {
+    if (newValue && typeof newValue.then === 'function') {
+      newValue.then(resolve);
+      return;
+    }
+
     value = newValue;
     state = 'resolved';
 

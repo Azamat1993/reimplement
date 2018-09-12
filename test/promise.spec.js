@@ -5,6 +5,12 @@ describe('Promise', function(){
     expect(Promise).toBeDefined();
   });
 
+  it('then returns promise itself', function(){
+    var promise = new Promise(function(){
+
+    });
+  })
+
   it('should set value with then', function(done) {
     var promise = new Promise(function(resolve) {
       resolve(42);
@@ -42,6 +48,38 @@ describe('Promise', function(){
       return res * 2;
     }).then(function(res) {
       expect(res).toBe(number * 2);
+      done();
+    });
+  });
+
+  it('does not require then to have body', function(done) {
+    var number = 42;
+
+    var promise = new Promise(function(resolve) {
+      resolve(number);
+    });
+
+    promise.then()
+      .then(function(res) {
+        expect(res).toBe(42);
+        done();
+      });
+  });
+
+  it('adds ability to return other promise', function(done){
+
+    var promise = new Promise(function(resolve) {
+      resolve(42);
+    });
+
+    var promise2 = new Promise(function(resolve) {
+      resolve(43);
+    });
+
+    promise.then(function(res) {
+      return promise2;
+    }).then(function(res) {
+      expect(res).toBe(43);
       done();
     })
   });
